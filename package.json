@@ -1,7 +1,7 @@
 {
   "name": "api_rest_videojuegos",
   "version": "1.0.0",
-  "description": "conectar a un repositorio de GitHub\r hacer 3 ramas main dev estructura-proyecto",
+  "description": "conectar a un repositorio de GitHub hacer 3 ramas main dev estructura-proyecto",
   "homepage": "https://github.com/TOTO05-a/api_rest_videojuegos#readme",
   "bugs": {
     "url": "https://github.com/TOTO05-a/api_rest_videojuegos/issues"
@@ -13,15 +13,17 @@
   "license": "ISC",
   "author": "Toto",
   "type": "module",
-  "main": "app.js",
-  "directories": {
-    "test": "test"
-  },
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "modules": "^0.4.0",
-    "node": "^26.9.0"
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "mongoose": "^9.10.2",
+    "nodemon": "^3.1.14"
   }
 }

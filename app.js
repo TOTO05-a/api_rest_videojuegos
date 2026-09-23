@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import { juegoRouter } from "./routes/juego.routes.js";
-import { manejarError, rutaNoEncontrada } from "./middlewares/error.middleware.js";
+import { juegoRouter } from "./src/routes/juego.routes.js";
+import { manejarError, rutaNoEncontrada } from "./src/middlewares/error.middleware.js";
 
 const API_VERSION = "1.0.0";
 const app = express();
