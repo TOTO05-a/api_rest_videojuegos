@@ -1,4 +1,4 @@
-import { CrearJuegoDTO, ActualizarJuegoDTO } from "../dtos/juego.dto.js";
+import { CrearJuegoDTO, ActualizarJuegoDTO, RespuestaJuegoDTO } from "../dtos/juego.dto.js";
 import { juegoService } from "../services/juego.service.js";
 
 export async function crearJuego(req, res, next) {
@@ -12,7 +12,7 @@ export async function crearJuego(req, res, next) {
       maxAge: 1000 * 60 * 60 * 24,
     });
 
-    res.status(201).json({ data: juego });
+    res.status(201).json({ data: new RespuestaJuegoDTO(juego) });
   } catch (error) { next(error); }
 }
 
@@ -22,7 +22,7 @@ export async function listarJuegos(req, res, next) {
     if (req.query.plataforma) filtro.plataforma = req.query.plataforma.toLowerCase();
     if (req.query.genero) filtro.genero = req.query.genero.toLowerCase();
     const juegos = await juegoService.listar(filtro);
-    res.json({ data: juegos });
+    res.json({ data: juegos.map((j) => new RespuestaJuegoDTO(j)) });
   } catch (error) { next(error); }
 }
 
@@ -30,7 +30,7 @@ export async function obtenerJuego(req, res, next) {
   try {
     const juego = await juegoService.buscarPorId(req.params.id);
     if (!juego) return res.status(404).json({ error: "Videojuego no encontrado" });
-    res.json({ data: juego });
+    res.json({ data: new RespuestaJuegoDTO(juego) });
   } catch (error) { next(error); }
 }
 
@@ -42,7 +42,7 @@ export async function actualizarJuego(req, res, next) {
     }
     const juego = await juegoService.actualizar(req.params.id, datos);
     if (!juego) return res.status(404).json({ error: "Videojuego no encontrado" });
-    res.json({ data: juego });
+    res.json({ data: new RespuestaJuegoDTO(juego) });
   } catch (error) { next(error); }
 }
 
@@ -51,5 +51,20 @@ export async function eliminarJuego(req, res, next) {
     const juego = await juegoService.eliminar(req.params.id);
     if (!juego) return res.status(404).json({ error: "Videojuego no encontrado" });
     res.status(204).send();
+  } catch (error) { next(error); }
+}
+
+export async function registrarTiempo(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { minutos } = req.body;
+
+    const juego = await juegoService.registrarTiempo(id, Number(minutos));
+    if (!juego) return res.status(404).json({ error: "Videojuego no encontrado" });
+
+    res.json({
+      mensaje: "Sesión de juego registrada con éxito",
+      data: new RespuestaJuegoDTO(juego),
+    });
   } catch (error) { next(error); }
 }
