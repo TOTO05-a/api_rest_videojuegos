@@ -6,4 +6,12 @@ export const juegoService = {
   async buscarPorId(id) { return Juego.findById(id); },
   async actualizar(id, datos) { return Juego.findByIdAndUpdate(id, datos, { new: true, runValidators: true }); },
   async eliminar(id) { return Juego.findByIdAndDelete(id); },
+  async registrarTiempo(id, minutos) {return Juego.findByIdAndUpdate(id,
+      {
+        $inc: { minutosTotales: minutos },
+        $push: { historialSesiones: { minutos, fecha: new Date() } }
+      },
+      { new: true, runValidators: true }
+    );
+  }
 };
